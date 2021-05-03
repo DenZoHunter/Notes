@@ -11,5 +11,9 @@
     <string name="thirdName">Третье имя</string>
     <string name="thirdDescr">Третье описание</string>
     <string name="thirdDate">Третья дата</string>
+    <string name="action_search">Поиск</string>
+    <string name="action_one">Добавить</string>
+    <string name="action_two">Удалить</string>
+    <string name="Toolbar">ToolBar</string>
 
 </resources>
