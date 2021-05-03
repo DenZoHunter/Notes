@@ -1,5 +1,6 @@
 package ru.geekbrains.notes;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -21,14 +22,35 @@ import ru.geekbrains.notes.domain.NotesRepository;
 
 public class ListFragment extends Fragment {
 
+    public interface OnNoteClicked {
+        void onNoteClicked(Notes notes);
+    }
+
+    private OnNoteClicked onNoteClicked;
+
     public ListFragment() {
 
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+
+        if (context instanceof OnNoteClicked) {
+            onNoteClicked = (OnNoteClicked) context;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        onNoteClicked = null;
+        super.onDetach();
+    }
+
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_list, container, false);
     }
 
@@ -36,24 +58,43 @@ public class ListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<Notes> notes = new NotesRepository().getNotes();
+        List<Notes> notesis = new NotesRepository().getNotes();
 
-        LinearLayout notesList = (LinearLayout) view;
+        LinearLayout notesList = view.findViewById(R.id.notes_list);
 
-        for (Notes item : notes) {
+        for (Notes notes : notesis) {
 
-            View noteView = LayoutInflater.from(requireContext()).inflate(R.layout.item_notes, notesList, false);
+            View notesView = LayoutInflater.from(requireContext()).inflate(R.layout.item_notes, notesList, false);
 
-            TextView name = noteView.findViewById(R.id.notes_name);
-            name.setText(item.getNameNotes());
+            notesView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openNotesDetail(notes);
+                }
+            });
 
-            TextView date = noteView.findViewById(R.id.notes_date);
-            date.setText(item.getDateNotes());
+            TextView name = notesView.findViewById(R.id.notes_name);
+            name.setText(notes.getNameNotes());
 
-            TextView description = noteView.findViewById(R.id.notes_description);
-            description.setText(item.getDescriptionNotes());
+            TextView date = notesView.findViewById(R.id.notes_date);
+            date.setText(notes.getDateNotes());
 
-            notesList.addView(noteView);
+            TextView description = notesView.findViewById(R.id.notes_description);
+            description.setText(notes.getDescriptionNotes());
+
+            notesList.addView(notesView);
+        }
+    }
+
+    private void openNotesDetail(Notes notes) {
+        if (getActivity() instanceof PublisherHolder) {
+            PublisherHolder holder = (PublisherHolder) getActivity();
+
+            holder.getPublisher().notify(notes);
+        }
+
+        if (onNoteClicked != null) {
+            onNoteClicked.onNoteClicked(notes);
         }
     }
 }
