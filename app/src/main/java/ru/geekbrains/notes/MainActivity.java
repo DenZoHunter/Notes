@@ -5,11 +5,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import ru.geekbrains.notes.domain.Notes;
 
 public class MainActivity extends AppCompatActivity implements ListFragment.OnNoteClicked {
@@ -30,11 +28,6 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnNo
                 if (item.getItemId() == R.id.action_one) {
                     Toast.makeText(MainActivity.this, "Добавили", Toast.LENGTH_SHORT).show();
                     return true;
-                }
-                if (item.getItemId() == R.id.action_search) {
-                    Toast.makeText(MainActivity.this, "Нашли", Toast.LENGTH_SHORT).show();
-                    return true;
-
                 }
                 return false;
             }
