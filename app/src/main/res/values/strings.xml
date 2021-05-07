@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Notes</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="firstName">Первое имя</string>
+    <string name="firstDescr">Первое описание</string>
+    <string name="firstDate">Первая дата</string>
+    <string name="secondName">Второе имя</string>
+    <string name="secondDescr">Второе описание</string>
+    <string name="secondDate">Вторая дата</string>
+    <string name="thirdName">Третье имя</string>
+    <string name="thirdDescr">Третье описание</string>
+    <string name="thirdDate">Третья дата</string>
+
 </resources>
