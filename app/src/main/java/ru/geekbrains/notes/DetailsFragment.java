@@ -16,8 +16,6 @@ import ru.geekbrains.notes.domain.Notes;
 public class DetailsFragment extends Fragment implements Observer {
 
     private static final String ARG_NOTES = "ARG_NOTES";
-    private TextView title;
-    private TextView description;
 
     public DetailsFragment() {
 
@@ -63,8 +61,8 @@ public class DetailsFragment extends Fragment implements Observer {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        title = view.findViewById(R.id.title);
-        description = view.findViewById(R.id.description);
+        TextView title = view.findViewById(R.id.title);
+        TextView description = view.findViewById(R.id.description);
 
         Notes notes = getArguments().getParcelable(ARG_NOTES);
 
