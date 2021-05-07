@@ -9,11 +9,11 @@ import androidx.annotation.StringRes;
 public class Notes implements Parcelable {
 
     @StringRes
-    private int nameNotes;
+    private final int nameNotes;
     @StringRes
-    private int descriptionNotes;
+    private final int descriptionNotes;
     @StringRes
-    private int dateNotes;
+    private final int dateNotes;
 
     public Notes(int nameNotes, int descriptionNotes, int dateNotes) {
         this.nameNotes = nameNotes;
