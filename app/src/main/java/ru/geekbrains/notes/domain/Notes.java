@@ -8,9 +8,9 @@ import java.util.Objects;
 
 public class Notes implements Parcelable {
 
-    private String nameNotes;
-    private String descriptionNotes;
-    private String dateNotes;
+    private final String nameNotes;
+    private final String descriptionNotes;
+    private final String dateNotes;
 
     public Notes(String nameNotes, String descriptionNotes, String dateNotes) {
         this.nameNotes = nameNotes;
