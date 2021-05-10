@@ -1,4 +1,4 @@
-package ru.geekbrains.notes;
+package ru.geekbrains.notes.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,21 +6,25 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
-import android.widget.TextView;
 
 import java.util.List;
 
+import ru.geekbrains.notes.R;
+import ru.geekbrains.notes.domain.MockNotesRepository;
 import ru.geekbrains.notes.domain.Notes;
+import ru.geekbrains.notes.domain.NotesAdapter;
 import ru.geekbrains.notes.domain.NotesRepository;
 
 
 public class ListFragment extends Fragment {
+
+    private NotesAdapter adapter;
 
     public interface OnNoteClicked {
         void onNoteClicked(Notes notes);
@@ -51,15 +55,36 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_list, container, false);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<Notes> notesis = new NotesRepository().getNotes();
 
+        List<Notes> notesis = new MockNotesRepository().getNotes();
+
+        RecyclerView recyclerList = view.findViewById(R.id.recyclerList);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false);
+
+        recyclerList.setLayoutManager(lm);
+
+        NotesAdapter adapter = new NotesAdapter();
+
+        recyclerList.setAdapter(adapter);
+
+        adapter.setData(notesis);
+
+        adapter.notifyDataSetChanged();
+
+
+
+
+  /*
+        List<Notes> notesis = new NotesRepository().getNotes();
         LinearLayout notesList = view.findViewById(R.id.notes_list);
 
         for (Notes notes : notesis) {
@@ -73,6 +98,8 @@ public class ListFragment extends Fragment {
                 }
             });
 
+
+
             TextView name = notesView.findViewById(R.id.notes_name);
             name.setText(notes.getNameNotes());
 
@@ -83,7 +110,7 @@ public class ListFragment extends Fragment {
             description.setText(notes.getDescriptionNotes());
 
             notesList.addView(notesView);
-        }
+        }*/
     }
 
     private void openNotesDetail(Notes notes) {
