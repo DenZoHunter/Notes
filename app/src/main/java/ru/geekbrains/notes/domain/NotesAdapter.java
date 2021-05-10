@@ -1,12 +1,12 @@
 package ru.geekbrains.notes.domain;
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -14,7 +14,23 @@ import java.util.List;
 
 import ru.geekbrains.notes.R;
 
+
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
+
+    private OnNoteClicked clickListener;
+
+
+    public interface OnNoteClicked {
+        void onNoteClicked(Notes note);
+    }
+
+    public OnNoteClicked getClickListener() {
+        return clickListener;
+    }
+
+    public void setClickListener(OnNoteClicked clickListener) {
+        this.clickListener = clickListener;
+    }
 
     private final ArrayList<Notes> data = new ArrayList<>();
 
@@ -57,6 +73,13 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             name = itemView.findViewById(R.id.notes_name);
             date = itemView.findViewById(R.id.notes_date);
             descr = itemView.findViewById(R.id.notes_description);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getClickListener().onNoteClicked(data.get(getAdapterPosition()));
+                }
+            });
         }
     }
 }

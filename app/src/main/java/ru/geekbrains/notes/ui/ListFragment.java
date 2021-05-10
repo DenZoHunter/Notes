@@ -19,12 +19,10 @@ import ru.geekbrains.notes.R;
 import ru.geekbrains.notes.domain.MockNotesRepository;
 import ru.geekbrains.notes.domain.Notes;
 import ru.geekbrains.notes.domain.NotesAdapter;
-import ru.geekbrains.notes.domain.NotesRepository;
+
 
 
 public class ListFragment extends Fragment {
-
-    private NotesAdapter adapter;
 
     public interface OnNoteClicked {
         void onNoteClicked(Notes notes);
@@ -80,37 +78,13 @@ public class ListFragment extends Fragment {
 
         adapter.notifyDataSetChanged();
 
+        adapter.setClickListener(new NotesAdapter.OnNoteClicked() {
+            @Override
+            public void onNoteClicked(Notes note) {
+                openNotesDetail(note);
+            }
+        });
 
-
-
-  /*
-        List<Notes> notesis = new NotesRepository().getNotes();
-        LinearLayout notesList = view.findViewById(R.id.notes_list);
-
-        for (Notes notes : notesis) {
-
-            View notesView = LayoutInflater.from(requireContext()).inflate(R.layout.item_notes, notesList, false);
-
-            notesView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openNotesDetail(notes);
-                }
-            });
-
-
-
-            TextView name = notesView.findViewById(R.id.notes_name);
-            name.setText(notes.getNameNotes());
-
-            TextView date = notesView.findViewById(R.id.notes_date);
-            date.setText(notes.getDateNotes());
-
-            TextView description = notesView.findViewById(R.id.notes_description);
-            description.setText(notes.getDescriptionNotes());
-
-            notesList.addView(notesView);
-        }*/
     }
 
     private void openNotesDetail(Notes notes) {
