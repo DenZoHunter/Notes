@@ -8,5 +8,5 @@ public interface NotesRepository {
 
     List<Notes> getNotes();
 
-
+    Notes addNote();
 }

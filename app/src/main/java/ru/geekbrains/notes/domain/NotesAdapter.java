@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -34,16 +35,29 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
     private final ArrayList<Notes> data = new ArrayList<>();
 
-    public void setData(List<Notes> toAdd) {
+/*    public void setData(List<Notes> toAdd) {
 
         data.addAll(toAdd);
-    }
+    }*/
 
     public int addData(Notes notes) {
 
         data.add(notes);
         int position = data.size()-1;
+        notifyDataSetChanged();
         return position;
+    }
+
+    public void setData(List<Notes> toAdd) {
+
+        NotesDiffUtilCallback callback = new NotesDiffUtilCallback(data, toAdd);
+
+        DiffUtil.DiffResult result = DiffUtil.calculateDiff(callback);
+
+        data.clear();
+        data.addAll(toAdd);
+
+        result.dispatchUpdatesTo(this);
     }
 
     public void delete(int index) {
@@ -91,6 +105,37 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
                     getClickListener().onNoteClicked(data.get(getAdapterPosition()));
                 }
             });
+        }
+    }
+
+    public static class NotesDiffUtilCallback extends DiffUtil.Callback {
+
+        private final List<Notes> oldList;
+        private final List<Notes> newList;
+
+        public NotesDiffUtilCallback(List<Notes> oldList, List<Notes> newList) {
+            this.oldList = oldList;
+            this.newList = newList;
+        }
+
+        @Override
+        public int getOldListSize() {
+            return oldList.size();
+        }
+
+        @Override
+        public int getNewListSize() {
+            return newList.size();
+        }
+
+        @Override
+        public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldList.get(oldItemPosition).getNameNotes().equals(newList.get(newItemPosition).getNameNotes());
+        }
+
+        @Override
+        public boolean areContentsTheSame(int oldItemPosition, int newItemPosition) {
+            return oldList.get(oldItemPosition).equals(newList.get(newItemPosition));
         }
     }
 }
