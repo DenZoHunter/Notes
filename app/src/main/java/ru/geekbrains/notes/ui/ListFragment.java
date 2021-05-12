@@ -24,6 +24,8 @@ import ru.geekbrains.notes.domain.NotesAdapter;
 
 public class ListFragment extends Fragment {
 
+
+
     public interface OnNoteClicked {
         void onNoteClicked(Notes notes);
     }
@@ -63,6 +65,7 @@ public class ListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
+
         List<Notes> notesis = new MockNotesRepository().getNotes();
 
         RecyclerView recyclerList = view.findViewById(R.id.recyclerList);
@@ -84,6 +87,7 @@ public class ListFragment extends Fragment {
                 openNotesDetail(note);
             }
         });
+
 
     }
 

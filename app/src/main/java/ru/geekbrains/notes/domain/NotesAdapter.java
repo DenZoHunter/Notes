@@ -39,6 +39,17 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         data.addAll(toAdd);
     }
 
+    public int addData(Notes notes) {
+
+        data.add(notes);
+        int position = data.size()-1;
+        return position;
+    }
+
+    public void delete(int index) {
+        data.remove(index);
+    }
+
     @NonNull
     @Override
     public NotesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
