@@ -19,6 +19,11 @@ public class MockNotesRepository implements NotesRepository {
         return new Notes("новое имя", "новое описание", "новая дата") ;
     }
 
+    @Override
+    public void removeAtPosition(int longClickedPosition) {
+
+    }
+
     public List<Notes> addNotes() {
 
         data.add(new Notes("первое имя", "первое описание", "первая дата"));

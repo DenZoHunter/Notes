@@ -25,6 +25,9 @@
 
     <string name="menu_home">Главная</string>
     <string name="menu_settings">Настройки</string>
+    <string name="action_open">Открыть</string>
+    <string name="action_update">Обновить</string>
+    <string name="action_delete">Удалить</string>
 
 
 </resources>

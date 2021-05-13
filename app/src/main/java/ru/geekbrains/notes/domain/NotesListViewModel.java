@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class NotesListViewModel extends ViewModel {
@@ -18,7 +19,7 @@ public class NotesListViewModel extends ViewModel {
         return notesLiveData;
     }
 
-    public void requestNotes(){
+    public void requestNotes() {
         List<Notes> notes = repository.getNotes();
 
         notesLiveData.setValue(notes);
@@ -32,6 +33,18 @@ public class NotesListViewModel extends ViewModel {
 
     public LiveData<Notes> getNoteAddedLiveData() {
         return noteAddedLiveData;
+
+
     }
 
+
+    public void deleteClicked(int longClickedPosition) {
+        repository.removeAtPosition(longClickedPosition);
+
+        noteDeletedLiveData.setValue(longClickedPosition);
+    }
+
+    public LiveData<Integer> getNoteDeletedLiveData() {
+        return noteDeletedLiveData;
+    }
 }

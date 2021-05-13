@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -84,7 +85,7 @@ public class ListFragment extends Fragment {
 
         recyclerList.setLayoutManager(lm);
 
-        adapter = new NotesAdapter();
+        adapter = new NotesAdapter(this);
         recyclerList.setAdapter(adapter);
         adapter.setData(notesis);
         adapter.notifyDataSetChanged();
@@ -117,6 +118,13 @@ public class ListFragment extends Fragment {
             }
         });
 
+        viewModel.getNoteDeletedLiveData().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer position) {
+                adapter.delete(position);
+            }
+        });
+
 
 
         viewModel.getNotesLiveData().observe(getViewLifecycleOwner(), new Observer<List<Notes>>() {
@@ -138,5 +146,36 @@ public class ListFragment extends Fragment {
         if (onNoteClicked != null) {
             onNoteClicked.onNoteClicked(notes);
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        requireActivity().getMenuInflater().inflate(R.menu.menu_list_context,menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_open) {
+            Toast.makeText(requireContext(), "Открыли", Toast.LENGTH_SHORT).show();
+
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_update) {
+
+            Toast.makeText(requireContext(), "Обновили", Toast.LENGTH_SHORT).show();
+
+            return true;
+        }
+
+        if (item.getItemId() == R.id.action_delete) {
+            viewModel.deleteClicked(adapter.getLongClickedPosition());
+            Toast.makeText(requireContext(), "Удалили", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+
+        return super.onContextItemSelected(item);
     }
 }
