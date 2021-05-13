@@ -47,4 +47,6 @@ public class NotesListViewModel extends ViewModel {
     public LiveData<Integer> getNoteDeletedLiveData() {
         return noteDeletedLiveData;
     }
+
+
 }

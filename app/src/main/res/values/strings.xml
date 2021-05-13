@@ -28,6 +28,7 @@
     <string name="action_open">Открыть</string>
     <string name="action_update">Обновить</string>
     <string name="action_delete">Удалить</string>
+    <string name="edit_notes">Редактирование заметки</string>
 
 
 </resources>

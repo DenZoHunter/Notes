@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnNo
 
     private boolean isLandscape = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,5 +56,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnNo
                     .commit();
         }
     }
+
+
 
 }

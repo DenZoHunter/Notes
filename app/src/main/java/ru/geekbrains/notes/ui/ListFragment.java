@@ -26,12 +26,14 @@ import ru.geekbrains.notes.domain.MockNotesRepository;
 import ru.geekbrains.notes.domain.Notes;
 import ru.geekbrains.notes.domain.NotesAdapter;
 import ru.geekbrains.notes.domain.NotesListViewModel;
+import ru.geekbrains.notes.edit.EditNoteFragment;
 
 
 public class ListFragment extends Fragment {
 
     private NotesListViewModel viewModel;
     private NotesAdapter adapter;
+    private EditNoteFragment editNoteFragment;
 
 
     public interface OnNoteClicked {

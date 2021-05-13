@@ -34,7 +34,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         return longClickedPosition;
     }
 
-
     public interface OnNoteClicked {
         void onNoteClicked(Notes note);
     }
