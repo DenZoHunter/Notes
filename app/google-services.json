@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "773086468006",
+    "project_id": "denzo-notes",
+    "storage_bucket": "denzo-notes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:773086468006:android:a58cb35f54d78712aae167",
+        "android_client_info": {
+          "package_name": "ru.geekbrains.notes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "773086468006-a95e5kg8l08akerg6i2s4nrmen82lok1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCw4gfKFA20DUUDReQP0cyD9-Qwrct-sik"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "773086468006-a95e5kg8l08akerg6i2s4nrmen82lok1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
