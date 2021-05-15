@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 
 import ru.geekbrains.notes.R;
-import ru.geekbrains.notes.domain.Notes;
+import ru.geekbrains.notes.domain.Note;
 
 public class MainActivity extends AppCompatActivity implements ListFragment.OnNoteClicked {
 
@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements ListFragment.OnNo
     }
 
     @Override
-    public void onNoteClicked(Notes notes) {
+    public void onNoteClicked(Note notes) {
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (isLandscape) {
