@@ -1,10 +1,12 @@
 package ru.geekbrains.notes.ui;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -33,6 +35,8 @@ import ru.geekbrains.notes.edit.EditNoteFragment;
 
 
 public class ListFragment extends Fragment {
+
+    boolean isDeleted = false;
 
     private NotesListViewModel viewModel;
     private NotesAdapter adapter;
@@ -82,11 +86,6 @@ public class ListFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        //        adapter.setData(notesis);
-//        List<Note> notesis = new FirestoreNotesRepository().getNotes();
-        //        adapter.notifyDataSetChanged();
-
-
         super.onViewCreated(view, savedInstanceState);
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
@@ -133,8 +132,6 @@ public class ListFragment extends Fragment {
         recyclerList.setItemAnimator(itemAnimator);
 
 
-
-
         viewModel.getNoteAddedLiveData().observe(getViewLifecycleOwner(), new Observer<Note>() {
             @Override
             public void onChanged(Note notes) {
@@ -149,9 +146,6 @@ public class ListFragment extends Fragment {
                 adapter.delete(position);
             }
         });
-
-
-
 
     }
 
@@ -176,9 +170,9 @@ public class ListFragment extends Fragment {
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
+
         if (item.getItemId() == R.id.action_open) {
             Toast.makeText(requireContext(), "Открыли", Toast.LENGTH_SHORT).show();
-
             return true;
         }
 
@@ -186,15 +180,42 @@ public class ListFragment extends Fragment {
 
             Toast.makeText(requireContext(), "Обновили", Toast.LENGTH_SHORT).show();
 
+
             return true;
         }
 
         if (item.getItemId() == R.id.action_delete) {
-            viewModel.deleteClicked(adapter.getLongClickedPosition());
-            Toast.makeText(requireContext(), "Удалили", Toast.LENGTH_SHORT).show();
-            return true;
+            showAlertDialog();
+
+            if (isDeleted) {
+                adapter.delete(adapter.getLongClickedPosition());
+            }
         }
 
         return super.onContextItemSelected(item);
+    }
+
+    private void showAlertDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+
+        builder.setTitle(R.string.alert_dialog)
+                .setMessage(R.string.alert_dialog_message)
+                .setIcon(R.drawable.icon_delete)
+                .setCancelable(false)
+                .setPositiveButton(R.string.positive_btn, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        isDeleted = true;
+                        Toast.makeText(requireContext(), "УДАЛЕНО", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .setNegativeButton(R.string.negative_btn, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(requireContext(), "НЕ УДАЛЕНО", Toast.LENGTH_SHORT).show();
+                        isDeleted = false;
+                    }
+                }).show();
     }
 }

@@ -34,6 +34,8 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         return longClickedPosition;
     }
 
+
+
     public interface OnNoteClicked {
         void onNoteClicked(Note note);
     }
@@ -84,7 +86,6 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
         Note notes = data.get(position);
         holder.name.setText(notes.getNameNotes());
-//        holder.date.setText(notes.getDateNotes());
         holder.descr.setText(notes.getDescriptionNotes());
 
     }
@@ -125,6 +126,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
             });
         }
     }
+
 
     public static class NotesDiffUtilCallback extends DiffUtil.Callback {
 

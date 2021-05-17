@@ -29,6 +29,10 @@
     <string name="action_update">Обновить</string>
     <string name="action_delete">Удалить</string>
     <string name="edit_notes">Редактирование заметки</string>
+    <string name="alert_dialog">Внимание!</string>
+    <string name="alert_dialog_message">Вы подтверждаете удаление?</string>
+    <string name="positive_btn">Да</string>
+    <string name="negative_btn">Нет</string>
 
 
 </resources>
