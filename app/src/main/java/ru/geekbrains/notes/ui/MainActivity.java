@@ -1,4 +1,4 @@
-package ru.geekbrains.notes;
+package ru.geekbrains.notes.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import ru.geekbrains.notes.R;
 import ru.geekbrains.notes.domain.Notes;
 
 public class MainActivity extends AppCompatActivity implements ListFragment.OnNoteClicked {

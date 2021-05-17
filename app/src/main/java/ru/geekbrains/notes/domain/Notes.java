@@ -4,27 +4,24 @@ package ru.geekbrains.notes.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.StringRes;
+import java.util.Objects;
 
 public class Notes implements Parcelable {
 
-    @StringRes
-    private final int nameNotes;
-    @StringRes
-    private final int descriptionNotes;
-    @StringRes
-    private final int dateNotes;
+    private final String nameNotes;
+    private final String descriptionNotes;
+    private final String dateNotes;
 
-    public Notes(int nameNotes, int descriptionNotes, int dateNotes) {
+    public Notes(String nameNotes, String descriptionNotes, String dateNotes) {
         this.nameNotes = nameNotes;
         this.descriptionNotes = descriptionNotes;
         this.dateNotes = dateNotes;
     }
 
     protected Notes(Parcel in) {
-        nameNotes = in.readInt();
-        descriptionNotes = in.readInt();
-        dateNotes = in.readInt();
+        nameNotes = in.readString();
+        descriptionNotes = in.readString();
+        dateNotes = in.readString();
     }
 
     public static final Creator<Notes> CREATOR = new Creator<Notes>() {
@@ -39,15 +36,15 @@ public class Notes implements Parcelable {
         }
     };
 
-    public int getNameNotes() {
+    public String getNameNotes() {
         return nameNotes;
     }
 
-    public int getDescriptionNotes() {
+    public String getDescriptionNotes() {
         return descriptionNotes;
     }
 
-    public int getDateNotes() {
+    public String getDateNotes() {
         return dateNotes;
     }
 
@@ -57,9 +54,14 @@ public class Notes implements Parcelable {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(nameNotes, descriptionNotes, dateNotes);
+    }
+
+    @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(nameNotes);
-        dest.writeInt(descriptionNotes);
-        dest.writeInt(dateNotes);
+        dest.writeString(nameNotes);
+        dest.writeString(descriptionNotes);
+        dest.writeString(dateNotes);
     }
 }

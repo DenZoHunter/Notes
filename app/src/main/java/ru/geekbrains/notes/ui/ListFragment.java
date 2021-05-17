@@ -1,4 +1,4 @@
-package ru.geekbrains.notes;
+package ru.geekbrains.notes.ui;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -6,18 +6,20 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-
-import android.widget.TextView;
 
 import java.util.List;
 
+import ru.geekbrains.notes.R;
+import ru.geekbrains.notes.domain.MockNotesRepository;
 import ru.geekbrains.notes.domain.Notes;
-import ru.geekbrains.notes.domain.NotesRepository;
+import ru.geekbrains.notes.domain.NotesAdapter;
+
 
 
 public class ListFragment extends Fragment {
@@ -51,39 +53,38 @@ public class ListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         return inflater.inflate(R.layout.fragment_list, container, false);
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        List<Notes> notesis = new NotesRepository().getNotes();
 
-        LinearLayout notesList = view.findViewById(R.id.notes_list);
+        List<Notes> notesis = new MockNotesRepository().getNotes();
 
-        for (Notes notes : notesis) {
+        RecyclerView recyclerList = view.findViewById(R.id.recyclerList);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(requireContext(),LinearLayoutManager.VERTICAL,false);
 
-            View notesView = LayoutInflater.from(requireContext()).inflate(R.layout.item_notes, notesList, false);
+        recyclerList.setLayoutManager(lm);
 
-            notesView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    openNotesDetail(notes);
-                }
-            });
+        NotesAdapter adapter = new NotesAdapter();
 
-            TextView name = notesView.findViewById(R.id.notes_name);
-            name.setText(notes.getNameNotes());
+        recyclerList.setAdapter(adapter);
 
-            TextView date = notesView.findViewById(R.id.notes_date);
-            date.setText(notes.getDateNotes());
+        adapter.setData(notesis);
 
-            TextView description = notesView.findViewById(R.id.notes_description);
-            description.setText(notes.getDescriptionNotes());
+        adapter.notifyDataSetChanged();
 
-            notesList.addView(notesView);
-        }
+        adapter.setClickListener(new NotesAdapter.OnNoteClicked() {
+            @Override
+            public void onNoteClicked(Notes note) {
+                openNotesDetail(note);
+            }
+        });
+
     }
 
     private void openNotesDetail(Notes notes) {
