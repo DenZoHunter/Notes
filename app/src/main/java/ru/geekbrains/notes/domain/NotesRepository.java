@@ -8,5 +8,8 @@ public interface NotesRepository {
 
     List<Notes> getNotes();
 
+    Notes addNote();
+
+    void removeAtPosition(int longClickedPosition);
 
 }

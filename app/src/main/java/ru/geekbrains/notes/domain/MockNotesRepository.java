@@ -10,13 +10,28 @@ public class MockNotesRepository implements NotesRepository {
 
     @Override
     public List<Notes> getNotes() {
-
-        ArrayList<Notes> notes = new ArrayList<>();
-
-        notes.add(new Notes("первое имя", "первое описание", "первая дата"));
-        notes.add(new Notes("второе имя", "второе описание", "вторая дата"));
-        notes.add(new Notes("третье имя", "третье описание", "третья дата"));
-
-        return notes;
+        addNotes();
+        return new ArrayList<>(data);
     }
+
+    @Override
+    public Notes addNote() {
+        return new Notes("новое имя", "новое описание", "новая дата") ;
+    }
+
+    @Override
+    public void removeAtPosition(int longClickedPosition) {
+
+    }
+
+    public List<Notes> addNotes() {
+
+        data.add(new Notes("первое имя", "первое описание", "первая дата"));
+        data.add(new Notes("второе имя", "второе описание", "вторая дата"));
+        data.add(new Notes("третье имя", "третье описание", "третья дата"));
+
+        return data;
+    }
+
+
 }
