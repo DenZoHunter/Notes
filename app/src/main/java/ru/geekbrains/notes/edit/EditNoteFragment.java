@@ -14,13 +14,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import ru.geekbrains.notes.R;
-import ru.geekbrains.notes.domain.Notes;
+import ru.geekbrains.notes.domain.Note;
 
 public class EditNoteFragment extends Fragment {
 
     private static final String ARG_NOTE = "ARG_NOTE";
 
-    public static EditNoteFragment newInstance(Notes notes) {
+    public static EditNoteFragment newInstance(Note notes) {
         EditNoteFragment fragment = new EditNoteFragment();
         Bundle bundle = new Bundle();
         bundle.putParcelable(ARG_NOTE, notes);

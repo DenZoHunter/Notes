@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import ru.geekbrains.notes.R;
-import ru.geekbrains.notes.domain.Notes;
+import ru.geekbrains.notes.domain.Note;
 
 public class DetailsFragment extends Fragment implements Observer {
 
@@ -22,7 +22,7 @@ public class DetailsFragment extends Fragment implements Observer {
 
     }
 
-    public static DetailsFragment newInstance(Notes notes) {
+    public static DetailsFragment newInstance(Note notes) {
         DetailsFragment fragment = new DetailsFragment();
 
         Bundle bundle = new Bundle();
@@ -65,7 +65,7 @@ public class DetailsFragment extends Fragment implements Observer {
         TextView title = view.findViewById(R.id.title);
         TextView description = view.findViewById(R.id.description);
 
-        Notes notes = getArguments().getParcelable(ARG_NOTES);
+        Note notes = getArguments().getParcelable(ARG_NOTES);
 
         title.setText(notes.getNameNotes());
         description.setText(notes.getDescriptionNotes());
@@ -73,7 +73,7 @@ public class DetailsFragment extends Fragment implements Observer {
     }
 
     @Override
-    public void updateNote(Notes notes) {
+    public void updateNote(Note notes) {
 
     }
 }

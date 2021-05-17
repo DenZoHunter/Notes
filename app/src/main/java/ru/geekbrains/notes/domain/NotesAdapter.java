@@ -20,7 +20,7 @@ import ru.geekbrains.notes.R;
 public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHolder> {
 
     private OnNoteClicked clickListener;
-    private final ArrayList<Notes> data = new ArrayList<>();
+    private final ArrayList<Note> data = new ArrayList<>();
 
     private final Fragment fragment;
 
@@ -35,7 +35,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     }
 
     public interface OnNoteClicked {
-        void onNoteClicked(Notes note);
+        void onNoteClicked(Note note);
     }
 
     public OnNoteClicked getClickListener() {
@@ -47,7 +47,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     }
 
 
-    public int addData(Notes notes) {
+    public int addData(Note notes) {
 
         data.add(notes);
         int position = data.size()-1;
@@ -55,7 +55,7 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
         return position;
     }
 
-    public void setData(List<Notes> toAdd) {
+    public void setData(List<Note> toAdd) {
 
         NotesDiffUtilCallback callback = new NotesDiffUtilCallback(data, toAdd);
 
@@ -82,9 +82,9 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
     @Override
     public void onBindViewHolder(@NonNull NotesViewHolder holder, int position) {
 
-        Notes notes = data.get(position);
+        Note notes = data.get(position);
         holder.name.setText(notes.getNameNotes());
-        holder.date.setText(notes.getDateNotes());
+//        holder.date.setText(notes.getDateNotes());
         holder.descr.setText(notes.getDescriptionNotes());
 
     }
@@ -128,10 +128,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NotesViewHol
 
     public static class NotesDiffUtilCallback extends DiffUtil.Callback {
 
-        private final List<Notes> oldList;
-        private final List<Notes> newList;
+        private final List<Note> oldList;
+        private final List<Note> newList;
 
-        public NotesDiffUtilCallback(List<Notes> oldList, List<Notes> newList) {
+        public NotesDiffUtilCallback(List<Note> oldList, List<Note> newList) {
             this.oldList = oldList;
             this.newList = newList;
         }

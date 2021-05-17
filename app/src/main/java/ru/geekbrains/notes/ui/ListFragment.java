@@ -9,6 +9,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,8 +23,10 @@ import android.widget.Toast;
 import java.util.List;
 
 import ru.geekbrains.notes.R;
+import ru.geekbrains.notes.domain.Callback;
+import ru.geekbrains.notes.domain.FirestoreNotesRepository;
 import ru.geekbrains.notes.domain.MockNotesRepository;
-import ru.geekbrains.notes.domain.Notes;
+import ru.geekbrains.notes.domain.Note;
 import ru.geekbrains.notes.domain.NotesAdapter;
 import ru.geekbrains.notes.domain.NotesListViewModel;
 import ru.geekbrains.notes.edit.EditNoteFragment;
@@ -37,7 +40,7 @@ public class ListFragment extends Fragment {
 
 
     public interface OnNoteClicked {
-        void onNoteClicked(Notes notes);
+        void onNoteClicked(Note notes);
     }
 
     private OnNoteClicked onNoteClicked;
@@ -78,26 +81,13 @@ public class ListFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        //        adapter.setData(notesis);
+//        List<Note> notesis = new FirestoreNotesRepository().getNotes();
+        //        adapter.notifyDataSetChanged();
+
+
         super.onViewCreated(view, savedInstanceState);
-
-        List<Notes> notesis = new MockNotesRepository().getNotes();
-
-        RecyclerView recyclerList = view.findViewById(R.id.recyclerList);
-        RecyclerView.LayoutManager lm = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
-
-        recyclerList.setLayoutManager(lm);
-
-        adapter = new NotesAdapter(this);
-        recyclerList.setAdapter(adapter);
-        adapter.setData(notesis);
-        adapter.notifyDataSetChanged();
-
-        adapter.setClickListener(new NotesAdapter.OnNoteClicked() {
-            @Override
-            public void onNoteClicked(Notes note) {
-                openNotesDetail(note);
-            }
-        });
 
         Toolbar toolbar = view.findViewById(R.id.toolbar);
 
@@ -112,9 +102,42 @@ public class ListFragment extends Fragment {
             }
         });
 
-        viewModel.getNoteAddedLiveData().observe(getViewLifecycleOwner(), new Observer<Notes>() {
+        adapter = new NotesAdapter(this);
+
+        adapter.setClickListener(new NotesAdapter.OnNoteClicked() {
             @Override
-            public void onChanged(Notes notes) {
+            public void onNoteClicked(Note note) {
+                openNotesDetail(note);
+            }
+        });
+
+
+        if (savedInstanceState == null) {
+            viewModel.requestNotes();
+        }
+
+        viewModel.getNotesLiveData().observe(getViewLifecycleOwner(), new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notes) {
+                adapter.setData(notes);
+            }
+        });
+
+
+        RecyclerView recyclerList = view.findViewById(R.id.recyclerList);
+        RecyclerView.LayoutManager lm = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerList.setLayoutManager(lm);
+        recyclerList.setAdapter(adapter);
+
+        DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
+        recyclerList.setItemAnimator(itemAnimator);
+
+
+
+
+        viewModel.getNoteAddedLiveData().observe(getViewLifecycleOwner(), new Observer<Note>() {
+            @Override
+            public void onChanged(Note notes) {
                 adapter.addData(notes);
                 adapter.notifyDataSetChanged();
             }
@@ -129,16 +152,10 @@ public class ListFragment extends Fragment {
 
 
 
-        viewModel.getNotesLiveData().observe(getViewLifecycleOwner(), new Observer<List<Notes>>() {
-            @Override
-            public void onChanged(List<Notes> notes) {
-                adapter.setData(notes);
-            }
-        });
 
     }
 
-    private void openNotesDetail(Notes notes) {
+    private void openNotesDetail(Note notes) {
         if (getActivity() instanceof PublisherHolder) {
             PublisherHolder holder = (PublisherHolder) getActivity();
 
@@ -154,7 +171,7 @@ public class ListFragment extends Fragment {
     public void onCreateContextMenu(@NonNull ContextMenu menu, View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
-        requireActivity().getMenuInflater().inflate(R.menu.menu_list_context,menu);
+        requireActivity().getMenuInflater().inflate(R.menu.menu_list_context, menu);
     }
 
     @Override
